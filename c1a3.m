@@ -1,10 +1,11 @@
 %% 习题1-3
 clear;
+syms a0 a1;
 % 假设新温标与摄氏温标存在线性对应关系，即N=a1*C+a0
 % 已知新温标[100 1000]对应于摄氏温标[0 100]
-eq1 = '1000 = a1*100 + a0';
-eq2 = '100 = a0';
-[a0, a1] = solve(eq1, eq2);
+eq1 = 1000 == a1*100 + a0;
+eq2 = 100  == a0;
+[a0, a1] = solve([eq1, eq2], [a0, a1]);
 % 新温标与摄氏温标的关系
 str1 = 'New temperature scale can be converted into the Celcius as °N = %.1f°C + %.1f \n';
 fprintf(str1, eval(a1), eval(a0));
