@@ -9,7 +9,7 @@ w12 = int(Rg*Ta/v, v, v1, v2);
 w12a = subs(w12, v1, v3);
 w12b = subs(w12a, v3, Tb/Ta*v2);
 % 化简得
-w12c = simplify(w12b):
+w12c = simplify(w12b);
 % 过程2-3为等压过程，其做功量为
 w23 = int(Rg*Ta/v2, v, v2 ,v3);
 % 化简得
