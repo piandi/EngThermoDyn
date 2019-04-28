@@ -10,4 +10,4 @@ eq3 = PB == PG3+0.1013;
 % 联立求解得
 [PA, PB, PG3] = solve([eq1, eq2, eq3], [PA, PB, PG3]);
 % 表3的读数为
-disp(sprintf('Gauge Pressure 3 is %.3f MPa \n', eval(PG3)))
+fprintf('Gauge Pressure 3 is %.3f MPa \n', eval(PG3)));
