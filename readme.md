@@ -2,7 +2,7 @@
 Discipline of Energy Chemical Engineering, School of Chemistry and Chemical Engineering, South China University of Technology
 by Dr. GUAN, Guoqiang
 
-# Demostration of matlab features
+# Demonstration of Matlab features
 | file name | Matlab features |
 | ---- | ---- |
 | c1a3.m | 1. define two symbolic equations and then solve them; |
