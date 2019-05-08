@@ -1,11 +1,10 @@
 clear;
-syms Q U W P_0 V_1 V_2 M C;
-x={0.28,0.99,61,2722,100000};
-[V_1,V_2,C,M,P_0]=deal(x{:});
+syms Q U W P0 V1 V2 M C;
+V1=0.28;V2=0.99;C=61;M=2722;P0=100000;
 Q=0;
-eq1=W==P_0*(V_2-V_1)+(M*C^2)/2;
+eq1=W==P0*(V2-V1)+(M*C^2)/2;
 eq2=U==Q-W;
 [W,U]=solve([eq1,eq2],[W,U]);
-disp(sprintf('热力学能变化为 %.2f J ',eval(U)));
+fprintf('热力学能变化为 %.2f J ',eval(U));
 
 

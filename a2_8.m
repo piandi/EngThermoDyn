@@ -1,7 +1,6 @@
 clear;
 syms V1 V2 P P1 P2 Pb A k b T1 Rg W V mp ma;
-x={0.008,290.15,101300,150000,100000,0.08,40000,0.718,287};
-[V1,T1,P1,P2,Pb,A,k,b,Rg]=deal(x{:});
+V1=0.008;T1=290.15;P1=101300;P2=150000;Pb=100000;A=0.08;k=40000;b=0.718;Rg=287;
 %求活塞质量
 mp=(P1-Pb)*A/9.8;
 %空气质量
@@ -16,7 +15,7 @@ syms x;
 P=A*Pb+mp*9.8+k*x;
 W=10^-3*int(P,x,0,0.0974);
 Q=deltaU+W;
-fprintf('所需热量为%.3fkJ /n',double(Q));
+fprintf('所需热量为%.3fkJ \n',double(Q));
 
 
 

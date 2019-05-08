@@ -1,7 +1,6 @@
 clear;
 syms P1 v1 P2 v2  q qm w deltau;
-x={100,0.845,800,0.175,139,-50,10};
-[P1,v1,P2,v2,deltau,q,c]=deal(x{:});
+P1=100;v1=0.845;P2=800;v2=0.175;deltau=139;q=-50;c=10;
 %闭口系能量方程q=deltau+w
 w=q-deltau;
 %压气机是开口热力系，压气机耗功wc=-wt。有稳定流动开口系方程q=deltah+wt,得

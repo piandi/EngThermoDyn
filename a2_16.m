@@ -1,7 +1,6 @@
 clear;
 syms h h1 h2 qm P T1 T2 Cp;
-x={6,30,25,12,276.65,277.15,4.187};
-[h1,h2,qm,P,T1,T2,Cp]=deal(x{:});
+h1=6;h2=30;qm=25;P=12;T1=276.65;T2=277.15;Cp=4.187;
 %Q=deltaH+m/2(c2^2-c1^2)+mg(z2-z1)+Ws,c1=c2
 syms deltah q_Q ;
 %q_Q=qm[deltah+gh]+P
