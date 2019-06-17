@@ -1,6 +1,16 @@
 ## Course Resources of Engineering Thermodynamics
 Discipline of Energy Chemical Engineering, School of Chemistry and Chemical Engineering, South China University of Technology
 by Dr. GUAN, Guoqiang
+# Course Slides
+| Link | Address |
+| ---- | ---- |
+| [Chap.1](https://sway.office.com/p7OClqpCd5ovbHzD?ref=Link) | https://sway.office.com/p7OClqpCd5ovbHzD?ref=Link |
+| [Chap.2](https://sway.office.com/TgZKg4wko0hRqrq0?ref=Link) | https://sway.office.com/TgZKg4wko0hRqrq0?ref=Link |
+| [Chap.3](https://sway.office.com/FhyqhDr9apcV02Ya?ref=Link) | https://sway.office.com/FhyqhDr9apcV02Ya?ref=Link |
+| [Chap.4](https://sway.office.com/3nOF4NFGHgLY78Tk?ref=Link) | https://sway.office.com/3nOF4NFGHgLY78Tk?ref=Link |
+| [Chap.4+](https://sway.office.com/leEPfueFdRVq0cJT?ref=Link) | https://sway.office.com/leEPfueFdRVq0cJT?ref=Link |
+| [Chap.7](https://sway.office.com/U5IuVMiXkVriQzSB?ref=Link) | https://sway.office.com/U5IuVMiXkVriQzSB?ref=Link |
+| [Chap.8](https://sway.office.com/LMlWYKAm6OOk9N47?ref=Link) | https://sway.office.com/LMlWYKAm6OOk9N47?ref=Link |
 
 # Demonstration of Matlab features
 | file name | Matlab features |
