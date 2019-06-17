@@ -24,3 +24,4 @@ by Dr. GUAN, Guoqiang
 | | 2. simplify the symbolic ode;|
 | | 3. solve 2nd-order ode numerically by converting into odes (odefun1.m) ;|
 | | 4. xyy plot |
+| c3a19.m | nothing new |
