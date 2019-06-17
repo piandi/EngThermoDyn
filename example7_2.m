@@ -2,16 +2,16 @@
 % r0: original
 % r1: use customized function CritProps_hs0.m
 % r2: add dependancy check
+% r3: add precheck function ChkFiles.m
 clear;
 % 检查需要调用的第三方文件是否存在
-chk_filename = 'XSteam';
-fprintf('The following files have been checked for existence ...\n');
-fprintf('%s\n', chk_filename);
-if exist(chk_filename, 'file') == 2
-    fprintf('Okey');
+chk_filename = {'XSteam'};
+result_chk = ChkFiles(chk_filename);
+if all(result_chk)
+    fprintf('All needed files existed\n');
 else
-    fprintf('File not exist and stop running\n')
-    return;
+    fprintf('STOP due to one of needed files NOT existed\n');
+    return
 end
 % 喷管进口处单位质量流动蒸汽的动能
 cf1 = 100; 
