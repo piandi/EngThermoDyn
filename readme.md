@@ -11,6 +11,7 @@ by Dr. GUAN, Guoqiang
 | [Chap.4+](https://sway.office.com/leEPfueFdRVq0cJT?ref=Link) | https://sway.office.com/leEPfueFdRVq0cJT?ref=Link |
 | [Chap.7](https://sway.office.com/U5IuVMiXkVriQzSB?ref=Link) | https://sway.office.com/U5IuVMiXkVriQzSB?ref=Link |
 | [Chap.8](https://sway.office.com/LMlWYKAm6OOk9N47?ref=Link) | https://sway.office.com/LMlWYKAm6OOk9N47?ref=Link |
+| [Chap.9](https://sway.office.com/rLiKU6egjlEj9ZOC?ref=Link) | https://sway.office.com/rLiKU6egjlEj9ZOC?ref=Link |
 
 # Demonstration of Matlab features
 | file name | Matlab features |
