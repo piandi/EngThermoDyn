@@ -6,7 +6,10 @@ function [log_flag] = Setlog(str_message, opt)
 %
 % Input arguments
 % str_message - (str)
-% opt         - (integer scaler)
+% opt         - (integer scaler) 1: save the current strings into logs
+%                                2: display all logs
+%                                3: 1 + display the current strings on cmd
+%                                windows
 %
 % Output arguments
 % log_flag    - (integer scaler)
@@ -38,4 +41,10 @@ switch opt
         for i = 1:msg_idx
             fprintf('%s - %s \n', logs(i).stamp, logs(i).message);
         end
+    case 3 % 将输入字段信息写入logs数组并在命令行窗口显示当前字段信息
+        msg_idx = msg_idx+1;
+        logs(msg_idx).stamp = datestr(now, stamp_format);
+        logs(msg_idx).message = str_message;
+        log_flag = 1;  
+        fprintf('%s - %s \n', logs(msg_idx).stamp, logs(msg_idx).message);
 end
