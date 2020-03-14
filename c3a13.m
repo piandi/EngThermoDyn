@@ -25,4 +25,4 @@ p2 = eval(solve(subs(EOS, [V T m], [V2 T2 m2]), p));
 % ds(v,T) = cv/T dT + Rg/v dv
 dS = m1*(cv*log(T2/T1)+Rg*log(V2/V1));
 %% Êä³ö
-fprintf('T2 = %.1f K, p2 = %.3f MPa, dS = %.1f J/kg-K\n', T2, p2/1e6, dS)
+fprintf('T2 = %.1f K, p2 = %.3f MPa, dS = %.1f J/K\n', T2, p2/1e6, dS)
