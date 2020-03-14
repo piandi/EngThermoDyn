@@ -24,18 +24,9 @@ for i = 1:4
         case(2)
             T(2) = XSteam('T_ph', p(2), h(2));
         case(3)
-            p3 = XSteam('psat_T', T(3))*1.2;
-            DoWhileLoop = 1;
-            while DoWhileLoop
-                s3 = XSteam('s_ph', p3, h(3));
-                p3_new = XSteam('p_hs', h(3), s3);
-                if abs(p3-p3_new) < 1e-5
-                    DoWhileLoop = 0;
-                else
-                    DoWhileLoop = 1;
-                end
-                p3 = p3_new;
-            end
+            p3_0 = XSteam('psat_T', T(3))*1.2;
+            dh = @(p3)(abs(XSteam('h_pT',p3,T(3))-h(3)));
+            p3 = fminsearch(dh,p3_0);
             p(3) = p3;
         case(4)
             T(4) = XSteam('Tsat_p',p(4));
