@@ -18,15 +18,15 @@ while i<(line_num)
     content = textscan(QQGroup_log(i),'%s');
     content = content{:};
     % debug use only
-    if i == 2627
-        i
-    end
+%     if i == 2627
+%         i
+%     end
     if (length(content{1}) == 10) && (content{1}(5) == content{1}(8))
         % 标识该行为header
         log_sn = log_sn+1;
         dates(log_sn) = textscan(content{1},'%D');
         times(log_sn) = textscan(content{2},'%D');
-        users(log_sn) = textscan(content{3},'%s');
+        users(log_sn) = textscan([content{3:end}],'%s');
         user_infocell = users(log_sn);
         user_infocell = user_infocell{:};
         chk_bracket = strfind(user_infocell,'(');
