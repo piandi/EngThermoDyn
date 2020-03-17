@@ -9,7 +9,7 @@
 % 由 MATLAB 自动生成于 2020/02/26 10:48:43
 
 %% 导入数据
-[~, ~, raw] = xlsread('C:\Users\gqgua\Documents\Git\Attendence\学生信息汇总表.xlsx','QQ群成员','A2:D59');
+[~, ~, raw] = xlsread('学生信息汇总表.xlsx','QQ群成员','A2:D59');
 stringVectors = string(raw(:,[1,2,3,4]));
 stringVectors(ismissing(stringVectors)) = '';
 
