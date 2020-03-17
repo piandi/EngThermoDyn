@@ -8,7 +8,7 @@
 % 由 MATLAB 自动生成于 2020/03/09 11:21:30
 
 %% 初始化变量。
-filename = 'C:\Users\gqgua\OneDrive\Documents\Enginneering Thermodynamics\2018级\QQ群记录\工程热力学（SCUT.ChE）.txt';
+filename = '工程热力学（SCUT.ChE）.txt';
 delimiter = {''};
 
 %% 每个文本行的格式:
