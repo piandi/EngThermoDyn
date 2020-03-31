@@ -7,14 +7,14 @@
 % 初始化
 clear;
 syms p v T
-cp = 1.05e3; cv = 0.785e3; % 比热单位为J/kg-K
+cp = 1.005e3; cv = 0.785e3; % 比热单位为J/kg-K
 n = 1.04; % 多变指数
 % 工质为理想气体，由迈耶公式可得气体常数
 Rg = cp-cv;
 EOS = p*v == Rg*T;
 % 初态
 p1 = 1.5e6; % 单位：Pa
-T1 = 350+273.15; % 单位：K
+T1 = 650; % 单位：K
 v1 = eval(subs(solve(EOS, v), [p T], [p1 T1])); % 单位：m3/kg
 % 终态
 p2 = 0.25e6; % 单位：Pa
@@ -24,7 +24,7 @@ T2 = eval(subs(solve(EOS, T), [p v], [p2 v2])); % 单位：K
 % 系统内能变化为
 du = cv*(T2-T1);
 % 系统对外做功（体积功）量为
-w = eval(int(p1*(v1/v)^n*v,v,v1,v2)); % 单位：J/kg
+w = eval(int(p1*(v1/v)^n,v,v1,v2)); % 单位：J/kg
 % 系统吸热量为
 q = du+w;
 %% 输出
@@ -34,6 +34,6 @@ if q < 0
 else
     prompt = 'Absorbed';
 end
-prompt = [prompt,' heat is %.1f J/kg\n'];
+prompt = [prompt,' heat is %.3e J/kg\n'];
 % 命令行显示
 fprintf(prompt, q);
