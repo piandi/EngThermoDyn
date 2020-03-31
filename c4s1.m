@@ -5,18 +5,21 @@
 %
 %% 初始化
 clear
-syms p V T;
+T = 27+273.15;
+syms p V m;
 Rg = 0.285e3; % 全部量都为国际单位
 % A容器初态
-pA1 = 80e3; VA = 3; TA1 = 27+273.15;
+pA1 = 80e3; VA = 3; TA1 = T;
 % B容器终态
 pB2 = 640e3; TB2 = 27+273.15;
 % 假定工质空气为理想气体
+EOS = p*V == m*Rg*T;
 % 初始A中的工质质量
-m = eval(subs(p*V/Rg/T, [p V T], [pA1 VA TA1]));
+mA1 = eval(subs(solve(EOS, m), [p V], [pA1 VA]));
 % 计算B容器的体积
-VB = eval(subs(m*Rg*T/p, [p T], [pB2 TB2]));
-vB2 = VB/m;
+mB2 = mA1;
+VB = eval(subs(solve(EOS, V), [p m], [pB2 mB2]));
+vB2 = VB/mB2;
 %% =================以下过程并非最小功========================
 % %% 对全部工质建立闭口系，系统状态从(pA1,vA1)变化到(pB2,vB2)
 % % 假定工质经历可逆等温变化，其体积功为
@@ -26,8 +29,8 @@ vB2 = VB/m;
 % 由膨胀后工质所占总体积计算平衡压力
 % A容器
 TA2 = TA1;
-pA2 = m*Rg*TA2/(VA+VB);
-vA2 = (VA+VB)/m;
+pA2 = eval(subs(solve(EOS, p), [V m], [VA+VB mA1]));
+vA2 = (VA+VB)/mA1;
 mA2 = VA/vA2;
 % B容器
 TB1 = TA2;
@@ -39,22 +42,22 @@ mB1 = VB/vB1;
 VA1 = VA;
 % 工质终态时所占体积
 TB2 = TB1;
-VA2 = mA2*Rg*TB2/pB2;
+VA2 = eval(subs(solve(EOS, V), [p m], [pB2 mA2]));
 % 工质做功量为
-WA = Rg*TA2*(VA2-VA1);
+WA = eval(int(subs(solve(EOS, p), m, mA2), V, VA1, VA2));
 %% 以平衡后B容器中的工质为闭口系，从状态(pB1,vB1)经历等温变化为(pB2,vB2)
 % 工质初态时所占体积
 VB1 = VB;
 % 工质终态时所占体积
 VB2 = mB1*vB2;
 % 工质做功量为
-WB = Rg*TB2*(VB2-VB1);
+WB = eval(int(subs(solve(EOS, p), m, mB1), V, VB1, VB2));
 %
 %% 将A容器抽至真空后重新打开A和B容器间的联通阀，工质从B容器向A容器自由等温膨胀到平衡
 % A容器中的工质状态为TA2、pA2、vA2和mA2
 % B容器中的工质状态为TB1、pB1、vB1和mB1
 % 此过程熵变
-dS = m*Rg*log(vA2/vB2);
+dS = mA1*Rg*log(vA2/vB2);
 % 环境温度
 T0 = 27+273.15;
 % 工质做功能力变化
