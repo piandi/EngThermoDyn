@@ -11,7 +11,7 @@ Rg = 0.285e3; % 全部量都为国际单位
 % A容器初态
 pA1 = 80e3; VA = 3; TA1 = T;
 % B容器终态
-pB2 = 640e3; TB2 = 27+273.15;
+pB2 = 640e3; TB2 = T;
 % 假定工质空气为理想气体
 EOS = p*V == m*Rg*T;
 % 初始A中的工质质量
@@ -20,10 +20,10 @@ mA1 = eval(subs(solve(EOS, m), [p V], [pA1 VA]));
 mB2 = mA1;
 VB = eval(subs(solve(EOS, V), [p m], [pB2 mB2]));
 vB2 = VB/mB2;
-%% =================以下过程并非最小功========================
+% =================以下过程并非最小功========================
 % %% 对全部工质建立闭口系，系统状态从(pA1,vA1)变化到(pB2,vB2)
 % % 假定工质经历可逆等温变化，其体积功为
-% W = m*Rg*TA1*(VB-VA);
+% W = eval(int(subs(solve(EOS, p), m, mB2), V, VA, VB));
 % %
 %% A容器向真空等温自由膨胀到平衡，pA2 = pB1, TB1 = TA2
 % 由膨胀后工质所占总体积计算平衡压力
@@ -63,10 +63,10 @@ T0 = 27+273.15;
 % 工质做功能力变化
 Ex = -T0*dS;
 %% 输出
-fprintf('Input work is %.1e W\n', -(WA+WB))
+fprintf('Input work is %.2e W\n', -(WA+WB))
 if Ex < 0
     prompt = 'where the negative value indicates the decrease of working ability';
 else
     prompt = 'where the positive value indicates the increase of working ability';
 end
-fprintf('Change of work ability is %.1e W, %s\n', Ex, prompt)
+fprintf('Change of work ability is %.2e W, %s\n', Ex, prompt)

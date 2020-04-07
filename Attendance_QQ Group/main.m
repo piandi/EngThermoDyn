@@ -49,7 +49,11 @@ log_tab = table(dates,times,QQNum, users,contents);
 
 %% 提取指定日期的记录
 % 输入提取数据的日期
-setdate = datetime(2020,3,17);
+d = uidatepicker('Value',datetime('today'));
+fprintf('Press any key to continue')
+pause
+setdate = d.Value; % datetime(2020,3,31);
+delete(d)
 % 提取记录
 extract_log = log_tab(dates == setdate,:);
 

@@ -7,8 +7,17 @@
 
 % 由 MATLAB 自动生成于 2020/03/09 11:21:30
 
+%% 从文件对话框选取导入的数据文件
+[File, PathName] = uigetfile('*.*', '选取QQ群记录txt文件 ...', 'Multiselect', 'off');
+if isequal(File,0)
+    filename = '工程热力学（SCUT.ChE）.txt';
+    disp('User selected cancel and use default txt file.');
+else
+    filename = [PathName,File];
+    disp(['User selected ',filename]);
+end
+
 %% 初始化变量。
-filename = '工程热力学（SCUT.ChE）.txt';
 delimiter = {''};
 
 %% 每个文本行的格式:
