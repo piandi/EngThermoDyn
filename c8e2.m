@@ -23,7 +23,7 @@ work = @(pval)(sum(abs(MultiStageCompressor(pval, materials, processes))));
 % 初值
 pval0 = zeros(NStage-1,1);
 for i = 1:(NStage-1)
-    pval0(i) = (materials(2).p-materials(1).p)/(NStage-i+5);
+    pval0(i) = (materials(2).p-materials(1).p)/(NStage-i+10);
 end
 % 求使目标函数最小的pval值
 options = optimset('PlotFcns', @optimplotfval);
