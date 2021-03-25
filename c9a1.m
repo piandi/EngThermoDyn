@@ -31,15 +31,15 @@ Process = struct('n', [], 'epsilon', [], 'lambda', [], 'rho', []);
 % Atto循环
 opt = 1;
 % 初态
-InitState.p = 100e3;
-InitState.T = 35+273.15;
+InitState.p = 90e3;
+InitState.T = 10+273.15;
 % 定义Atto循环的特征参数
 Process.n = Material.kappa; % 绝热压缩和膨胀
-Process.epsilon = 10;
+Process.epsilon = 9;
 Process.lambda = 1.2; 
 Process.rho = 1;
 %
-q1 = 650e3;
+q1 = 2400e3;
 
 %% 过程计算
 % 求解满足[q1 = 650kJ/kg]的定容增压比
