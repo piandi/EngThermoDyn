@@ -3,8 +3,14 @@
 % 学生提交多次答案时按导出的Excel工作表中最后一个为算分标准
 %
 % by Dr. Guan Guoqiang
-%
+
+%% 初始化
 clear all
+% 检查所需文件是否存在，m文件扩展名可省略
+fileChkList = {'XSteam' 'ConvertGrade' 'dispQzResult' 'QzResults.mat'};
+if any(ChkFiles(fileChkList)) == false
+    return
+end
 
 %% 用户输入课程题的题型
 QNum = input('【输入】请输入课测题目数：');
