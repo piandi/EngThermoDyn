@@ -113,9 +113,9 @@ for i = 1:length(CollectSheets)
                     end
                 end
             case(4) %
-                A = str2double(regexp(CollectSheets(i).Answers(iQ).Options,'\d+[.]?\d+','match'));
+                A = str2double1(regexp(CollectSheets(i).Answers(iQ).Options,'\d+[.]?\d+?[\s]?[%]','match'));
                 for j = 1:length(Reference)
-                    B = str2double(Reference(j).Answers(iQ).Options);
+                    B = str2double1(Reference(j).Answers(iQ).Options);
                     if abs((A-B)/B) <= 0.05
                         CollectSheets(i).Answers(iQ).Grade = 1;
                         break
@@ -154,10 +154,10 @@ Student = [Student,table(SN_L4D)];
 % 按学生成绩册中的名单顺序
 for iStudent = 1:height(Student)
     idx = cellfun(@(x)(strcmp(x,Student{iStudent,'Name'})),{CollectSheets.Name});
-    if ~any(idx)
-        if any(strcmp(fieldnames(CollectSheets),'SN_L4D'))
+    if ~any(idx) % 按成绩单的姓名查找无果时
+        if any(strcmp(fieldnames(CollectSheets),'SN_L4D')) % 按成绩单的学号后四位查找
             idx = cellfun(@(x)(strcmp(x,Student{iStudent,'SN_L4D'})),{CollectSheets.SN_L4D});
-        else
+        else % 按成绩单的学号查找
             idx = cellfun(@(x)(strcmp(x,Student{iStudent,'SN'})),{CollectSheets.SN});
         end
     end
@@ -167,6 +167,9 @@ for iStudent = 1:height(Student)
     elseif sum(idx) > 1 % 多次提交       
         Questions(iStudent,:) = [CollectSheets(find(idx,1,'Last')).Answers.Grade];
         Grade(iStudent,1) = ConvertGrade(mean(Questions(iStudent,:)));
+    else
+        fprintf('成绩登记表的%s不在提交课测的同学中!\n',Student{iStudent,'Name'})
+        Grade(iStudent,1) = missing;
     end
 end
 Transcript = [Student,table(Questions),table(Grade)];
@@ -189,3 +192,11 @@ end
 
 %% 输出结果
 dispQzResult(QzResult)
+
+function value = str2double1(strValue)
+    if contains(strValue,"%")
+        value = sscanf(strValue,'%f')/100;
+    else
+        value = sscanf(strValue,'%f');
+    end
+end
