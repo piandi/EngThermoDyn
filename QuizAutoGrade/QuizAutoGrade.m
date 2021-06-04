@@ -119,7 +119,15 @@ for i = 1:length(CollectSheets)
                     end
                 end
             case(4) %
-                A = str2double1(regexp(CollectSheets(i).Answers(iQ).Options,'\d+[.]?\d+?[\s]?[%]','match'));
+                s0 = strrep(CollectSheets(i).Answers(iQ).Options,' ','');
+                s1 = regexp(s0,'\d+(\.\d+)?[%]?','match');
+                if length(s1) ~= 1
+                    prompt = sprintf('%s提交的第%d题答案识别有误！',CollectSheets(i).Name,iQ+2);
+                    warning(prompt)
+                    A = nan;
+                else
+                    A = str2double1(s1);
+                end               
                 for j = 1:length(Reference)
                     B = str2double1(Reference(j).Answers(iQ).Options);
                     if abs((A-B)/B) <= 0.05
