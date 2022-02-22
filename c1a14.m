@@ -5,8 +5,7 @@ p = [1.655, 1.069, 0.724, 0.5, 0.396, 0.317, 0.245, 0.193, 0.103]';
 V = [114.71, 163.87, 245.81, 327.74, 409.68, 491.61, 573.55, 655.48, 704.64]';
 % 在p-V图上绘制数据点
 plot(V, p, 'o')
-xlabel('V / cm^{3}');
-ylabel('p / MPa');
+
 hold on;
 % 用梯形公式计算离散点面积分
 W_t = trapz(V, p);
@@ -25,7 +24,9 @@ ft = fittype( 'smoothingspline' );
 % Integrate the fitted curve
 int = integrate(fitresult, V, V(1));
 % plot the fit curve
-plot( fitresult, xData, yData )
+plot(fitresult, xData, yData)
+xlabel('V / cm^{3}');
+ylabel('p / MPa');
 hold off;
 % Display the fitting error
 table(V, p, feval(fitresult, V), p-feval(fitresult, V))
