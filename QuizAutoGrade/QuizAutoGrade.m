@@ -162,6 +162,9 @@ Raw = importfile();
 Heads = GetVarName(cellstr([Raw{1,:}]));
 Student = cell2table(Raw(2:end,:),'VariableNames',Heads);
 Questions = zeros(height(Student),QNum);
+Time = string;
+CorrectRate = zeros(height(Student),1);
+RankByTime = zeros(height(Student),1);
 Grade = string;
 SN_L4D = cellfun(@(x)x(end-3:end),arrayfun(@(x)convertStringsToChars(x),Student.SN,'UniformOutput',false),'UniformOutput',false);
 Student = [Student,table(SN_L4D)];
@@ -177,16 +180,24 @@ for iStudent = 1:height(Student)
     end
     if sum(idx) == 1
         Questions(iStudent,:) = [CollectSheets(idx).Answers.Grade];
-        Grade(iStudent,1) = ConvertGrade(mean(Questions(iStudent,:)));
+        Time(iStudent,1) = CollectSheets(idx).Time;
+        CorrectRate(iStudent,1) = mean(Questions(iStudent,:),'omitnan'); % 正确率
+%         Grade(iStudent,1) = ConvertGrade(mean(Questions(iStudent,:),'omitnan')); % 课测成绩采用五分值
+        
     elseif sum(idx) > 1 % 多次提交       
         Questions(iStudent,:) = [CollectSheets(find(idx,1,'Last')).Answers.Grade];
-        Grade(iStudent,1) = ConvertGrade(mean(Questions(iStudent,:)));
+        Time(iStudent,1) = CollectSheets(idx).Time;
+        CorrectRate(iStudent,1) = mean(Questions(iStudent,:),'omitnan'); % 正确率
+%         Grade(iStudent,1) = ConvertGrade(mean(Questions(iStudent,:),'omitnan')); % 课测成绩采用五分值
     else
         fprintf('成绩登记表的%s不在提交课测的同学中!\n',Student{iStudent,'Name'})
         Grade(iStudent,1) = missing;
     end
 end
-Transcript = [Student,table(Questions),table(Grade)];
+[~,RankByTime(~ismissing(Time))] = sort(datenum(Time(~ismissing(Time))));
+cGrade = arrayfun(@(x)num2str(x,"%.1f"),CorrectRate.*RankCoefficient(RankByTime),'UniformOutput',false); % 百分制成绩 = 得分率*排名系数
+Grade(~ismissing(Time)) = cGrade(~ismissing(Time));
+Transcript = [Student,table(Questions),table(CorrectRate),table(RankByTime),table(Grade)];
 % 
 QzResult.Descript = Workbook;
 QzResult.QTypeId = QTypeID;
@@ -213,4 +224,11 @@ function value = str2double1(strValue)
     else
         value = sscanf(strValue,'%f');
     end
+end
+
+function value = RankCoefficient(ranking)
+    value = zeros(size(ranking));
+    N = max(ranking);
+    idx = (ranking>0);
+    value(idx) = 100-40*(ranking(idx)-1)/(N-1); % 第一名提交为100，最后一名为60
 end
