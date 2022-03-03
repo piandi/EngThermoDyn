@@ -27,6 +27,8 @@ details = table2array(outTab(:,6:end));
 if isequal(class(details),'string')
     details = str2double(details);
 end
+% 没提交的课测成绩设为0分
+details(isnan(details)) = 0;
 Avg = sum(details,2)./size(details,2);
 
 % 输出结果
