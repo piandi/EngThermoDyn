@@ -18,12 +18,15 @@ end
 QzResults1 = QzResults(indices);
 outTab1 = QzResults1(1).Transcript(:,1:5);
 for iQz = 1:length(QzResults1)
-    out2.(['Qz',num2str(iQz)]) = QzResults1(iQz).Transcript.Questions;
+    out2.(['Qz',num2str(iQz)]) = QzResults1(iQz).Transcript.Grade;
 end
 outTab = [outTab1,struct2table(out2)];
 
 % 计算平均分
 details = table2array(outTab(:,6:end));
+if isequal(class(details),'string')
+    details = str2double(details);
+end
 Avg = sum(details,2)./size(details,2);
 
 % 输出结果
