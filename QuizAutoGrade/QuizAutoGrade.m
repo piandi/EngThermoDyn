@@ -14,7 +14,7 @@ end
 
 %% 用户输入课程题的题型
 QNum = input('【输入】请输入课测题目数：');
-fprintf('【输入】请输入课测题的题型代号 \n 1-单选题 \n 2-不定项选择题 \n 3-计算题（答案要求精确一致） \n 4-计算题（答案允许5%%偏差）\n')
+fprintf('【输入】请输入课测题的题型代号 \n 1-单选题 \n 2-不定项选择题 \n 3-计算题（答案要求精确一致） \n 4-计算题（答案允许5%%偏差）\n 本小题不计分请输入其他数值\n')
 QTypeID = zeros(QNum,1);
 for iQ = 1:QNum
     prompt = sprintf('【输入】第%d题的题型代号为：',iQ);
@@ -62,7 +62,11 @@ for i = 1:length(Data)
     Raws = Data(i,QuestionCols);
     for iQ = 1:QNum
         Answers(iQ).Raw = Raws{iQ};
-        Answers(iQ).Options = strsplit(Answers(iQ).Raw,', ');
+        if ~ismissing(Answers(iQ).Raw)
+            Answers(iQ).Options = strsplit(Answers(iQ).Raw,', ');
+        else
+            Answers(iQ).Options = "";
+        end
         Answers(iQ).TypeID = QTypeID(iQ);
     end
     CollectSheets(i).Answers = Answers;
@@ -211,12 +215,21 @@ if input('【输入】结果是[1]/否[0]存入文件QzResults.mat：') == 1
         QzResults = QzResult;
     end
     save('QzResults.mat', 'QzResults')
-else
-    return
 end
 
 %% 输出结果
+% 用柱状图显示本次课程各题得分率
 dispQzResult(QzResult)
+% 显示课程成绩合格同学名单
+listNames = QzResult.Transcript.Name(str2double(Grade) >= 60);
+if ~isempty(listNames)
+    fprintf('课测成绩合格同学名单：%s\n',strjoin(listNames,'、'))
+else
+    fprintf('课测成绩合格同学名单：%s\n','无')
+end
+% 显示最高分同学
+[bestGrade,iStudent] = max(str2double(Grade));
+fprintf('%s同学得最高分%.1f\n',QzResult.Transcript.Name{iStudent},bestGrade)
 
 function value = str2double1(strValue)
     if contains(strValue,"%")
