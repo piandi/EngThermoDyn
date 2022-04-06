@@ -35,9 +35,12 @@ T2 = T0*(p0/p2)^((1-kappa)/kappa);
 S2.Temperature = T2;
 % 计算出口比体积
 S2.SpecVolume = Rg*T2/p2;
+% 计算出口流速
+cp = S1.cp;
+cf2 = sqrt(2*cp*(T0-T2));
 % 计算出口流量
 A2 = 10e-4;
-S2.Velocity = cfc;
+S2.Velocity = cf2;
 S2.Mass = 1/S2.SpecVolume*S2.Velocity*A2;
 % 显示结果
 fprintf('Critical pressure:         %.4e Pa\n', S2.CriticalProp.p);
