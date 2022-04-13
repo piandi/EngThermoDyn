@@ -221,14 +221,14 @@ end
 % 用柱状图显示本次课程各题得分率
 dispQzResult(QzResult)
 % 显示课程成绩合格同学名单
-listNames = QzResult.Transcript.Name(str2double(Grade) >= 60);
+listNames = QzResult.Transcript.Name(str2double(QzResult.Transcript.Grade) >= 60);
 if ~isempty(listNames)
     fprintf('课测成绩合格同学名单：%s\n',strjoin(listNames,'、'))
 else
     fprintf('课测成绩合格同学名单：%s\n','无')
 end
 % 显示最高分同学
-[bestGrade,iStudent] = max(str2double(Grade));
+[bestGrade,iStudent] = max(str2double(QzResult.Transcript.Grade));
 fprintf('%s同学得最高分%.1f\n',QzResult.Transcript.Name{iStudent},bestGrade)
 
 function value = str2double1(strValue)
