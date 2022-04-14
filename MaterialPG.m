@@ -2,10 +2,10 @@ classdef MaterialPG < handle
     % MaterialPG 工质物性
     
     properties
-        Rg
-        cv
-        cp
-        kappa
+        Rg = missing;
+        cv = missing;
+        cp = missing;
+        kappa = missing;
         status = '未指定';
     end
     
@@ -54,7 +54,7 @@ classdef MaterialPG < handle
             syms x1 x2 x3 x4
             x = [x1 x2 x3 x4];
             propNames = {'Rg','cv','cp','kappa'};
-            idx = cellfun(@(x)~isempty(obj.(x)),propNames); % 找出已赋值的属性
+            idx = cellfun(@(x)~ismissing(obj.(x)),propNames); % 找出已赋值的属性
             if sum(idx) == 2
                 xVal = cellfun(@(x)(obj.(x)),propNames(idx));
                 eq1 = x1 == x3-x2;

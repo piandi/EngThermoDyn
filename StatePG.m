@@ -4,9 +4,9 @@ classdef StatePG < handle
     
     properties
         Material = MaterialPG
-        p % [kPa]
-        v % [m3/kg]
-        T % [K]
+        p = missing % [kPa]
+        v = missing % [m3/kg]
+        T = missing % [K]
         status = ''
     end
     
@@ -62,8 +62,10 @@ classdef StatePG < handle
             % 根据obj.status记录删除上次计算的属性值
             if ~isempty(obj.status)
                 calcVarChar = obj.status(1);
-                if ~isequal(calcVarChar,currentVarChar)
-                    obj.(calcVarChar) = [];
+                if any(strcmp(calcVarChar,{'p','v','T'}))
+                    if ~isequal(calcVarChar,currentVarChar)
+                        obj.(calcVarChar) = missing;
+                    end
                 end
             end
         end
@@ -73,7 +75,7 @@ classdef StatePG < handle
                 return
             end
             propNames = {'p','v','T'};
-            idx = cellfun(@(x)~isempty(obj.(x)),propNames); % 找出已赋值属性
+            idx = cellfun(@(x)~ismissing(obj.(x)),propNames); % 找出已赋值属性
             nKnown = sum(idx);
             calcVarChars = propNames(~idx);
         end

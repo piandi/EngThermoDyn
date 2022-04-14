@@ -26,7 +26,7 @@ function [w,wt,du,dh] = Polytropic(n,s1,s2)
     if isempty(strfind(s1.status,'已计算')) % s1应为确定状态
        error('Polytropic()输入初态不确定！')      
     end
-    idxUnknown = cellfun(@(x)isempty(x),{s2.p,s2.v,s2.T});
+    idxUnknown = cellfun(@(x)ismissing(x),{s2.p,s2.v,s2.T});
     if sum(~idxUnknown) ~= 1 % s2应知道pvT中的一个
        error('Polytropic()输入终态有误！')
     end
@@ -51,17 +51,17 @@ function [w,wt,du,dh] = Polytropic(n,s1,s2)
     eos = p2*v2 == Rg*T2;
     switch n
         case(0)
-            if isequal(calcVarsChar,'p')
+            if isequal(calcVarsChar,'p2')
                 error('定压过程不应给定终态压力条件！')
             end
             peq = T1/v1 == T2/v2;        
         case(1)
-            if isequal(calcVarsChar,'T')
+            if isequal(calcVarsChar,'T2')
                 error('定温过程不应给定终态温度条件！')
             end
             peq = p1*v1 == p2*v2;
         case(inf)
-            if isequal(calcVarsChar,'v')
+            if isequal(calcVarsChar,'v2')
                 error('定容过程不应给定终态比体积条件！')
             end
             peq = T1/p1 == T2/p2;
@@ -79,7 +79,7 @@ function [w,wt,du,dh] = Polytropic(n,s1,s2)
     if ~isequal(s2.Material.status,'给定')
         s2.Material = s1.Material;
     end
-    s2.status = sprintf('理想气体绝热过程已计算');
+    s2.status = sprintf('理想气体多变（n=%.3f）过程已计算',n);
     % 计算绝热过程做功量
     syms p v
     p2Val = s2.p; v2Val = s2.v; T2Val = s2.T;
