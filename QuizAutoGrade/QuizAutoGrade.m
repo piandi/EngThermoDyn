@@ -12,30 +12,38 @@ if any(ChkFiles(fileChkList)) == false
     return
 end
 
-%% 用户输入课程题的题型
-QNum = input('【输入】请输入课测题目数：');
-fprintf('【输入】请输入课测题的题型代号 \n 1-单选题 \n 2-不定项选择题 \n 3-计算题（答案要求精确一致） \n 4-计算题（答案允许5%%偏差）\n 本小题不计分请输入其他数值\n')
-QTypeID = zeros(QNum,1);
-for iQ = 1:QNum
-    prompt = sprintf('【输入】第%d题的题型代号为：',iQ);
-    QTypeID(iQ) = input(prompt);
-end
-
 %% 导入课测结果收集电子表
 [Data,Workbook] = importfile();
 % 获取表头
 Heads = Data(1,:);
 Data(1,:) = [];
 % 获取信息列
-InfoCols = cellfun(@(x)(contains(x,'提交者')|contains(x,'提交时间')|contains(x,'姓名')|contains(x,'学号')),Heads);
+idxInfoCol = cellfun(@(x)(contains(x,'提交者')|contains(x,'提交时间')|contains(x,'姓名')|contains(x,'学号')),Heads);
 % 获取课测题目列
-QuestionCols = ~InfoCols;
-% 检查用户输入的课测题数目与收集表中的记录是否一致
-if sum(QuestionCols) == QNum
-    fprintf('【信息】收集表中课测题目数量与指定一致。\n')
-else
-    fprintf('【错误】用户输入的课测题数目与收集表中的记录不一致！\n')
-    return
+idxQuestionCol = ~idxInfoCol;
+% 课测题目数
+QNum = sum(idxQuestionCol);
+% 根据表头信息确定课程题目类型
+QTypeID = zeros(QNum,1);
+QuestionHeads = Heads(idxQuestionCol);
+for iQT = 1:QNum
+    str = regexp(QuestionHeads{iQT},'【\w*】','match');
+    if isempty(str)
+        fprintf('课测题：%s\n',QuestionHeads{iQT})
+        fprintf('请指定题型代号 \n 1-单选题 \n 2-不定项选择题 \n 3-计算题（答案要求精确一致） \n 4-计算题（答案允许5%%偏差）\n 本小题不计分请输入其他数值\n')
+        QTypeID(iQT) = input('请输入题型代号：');
+    else
+        switch str
+            case('【单选题】')
+                QTypeID(iQT) = 1;
+            case('【不定项选择题】')
+                QTypeID(iQT) = 2;
+            case('【计算题】')
+                QTypeID(iQT) = 4;
+            otherwise
+                error('无法识别字段“%s”类型',str)
+        end
+    end
 end
 
 %% 重构答卷
@@ -59,7 +67,7 @@ for i = 1:length(Data)
     % 课测题目
     Answers = struct([]);
     % 依次处理各题
-    Raws = Data(i,QuestionCols);
+    Raws = Data(i,idxQuestionCol);
     for iQ = 1:QNum
         Answers(iQ).Raw = Raws{iQ};
         if ~ismissing(Answers(iQ).Raw)
