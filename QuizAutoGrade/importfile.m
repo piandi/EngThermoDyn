@@ -1,4 +1,4 @@
-function [data,workbookFile] = importfile(workbookFile, sheetName, range)
+function [data,workbookFile,meta] = importfile(workbookFile, sheetName, range)
 %IMPORTFILE 导入电子表格中的数据
 %   DATA = IMPORTFILE(FILE) 读取名为 FILE 的 Microsoft Excel
 %   电子表格文件的第一张工作表中的数据，并以元胞数组的形式返回该数据。
@@ -58,3 +58,6 @@ for iCol = 1:size(data,2)
     end
 end
 data(:,DelCols) = [];
+
+% 读取文件meta信息
+meta = dir(fullpath);

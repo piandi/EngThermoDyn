@@ -13,7 +13,7 @@ if any(ChkFiles(fileChkList)) == false
 end
 
 %% 导入课测结果收集电子表
-[Data,Workbook] = importfile();
+[Data,Workbook,meta] = importfile();
 % 获取表头
 Heads = Data(1,:);
 Data(1,:) = [];
@@ -214,6 +214,7 @@ Transcript = [Student,table(Questions),table(CorrectRate),table(RankByTime),tabl
 QzResult.Descript = Workbook;
 QzResult.QTypeId = QTypeID;
 QzResult.Transcript = Transcript;
+QzResult.FileMeta = meta;
 % 结果存盘
 if input('【输入】结果是[1]/否[0]存入文件QzResults.mat：') == 1
     if exist('QzResults.mat','file') == 2
