@@ -208,7 +208,7 @@ for iStudent = 1:height(Student)
 end
 [~,RankByTime(~ismissing(Time))] = sort(datenum(Time(~ismissing(Time))));
 cGrade = arrayfun(@(x)num2str(x,"%.1f"),CorrectRate.*RankCoefficient(RankByTime),'UniformOutput',false); % 百分制成绩 = 得分率*排名系数
-Grade(~ismissing(Time)) = cGrade(~ismissing(Time));
+Grade(~ismissing(Time),1) = cGrade(~ismissing(Time));
 Transcript = [Student,table(Questions),table(CorrectRate),table(RankByTime),table(Grade)];
 % 
 QzResult.Descript = Workbook;
