@@ -5,7 +5,7 @@
 clear
 load('QzResults.mat','QzResults')
 
-% 检查是否存在相同的课测成绩记录
+% 检查是否存在相同的课测成绩记录，选最新的记录进行算分
 QzNum = length(QzResults);
 indices = false(1,QzNum);
 QzNames = {QzResults.Descript};
@@ -31,5 +31,5 @@ end
 details(isnan(details)) = 0;
 Avg = sum(details,2)./size(details,2);
 
-% 输出结果
+% 输出结果（按分数从高到低排列）
 disp(sortrows([outTab,table(Avg)],{'Avg'},{'descend'}))
