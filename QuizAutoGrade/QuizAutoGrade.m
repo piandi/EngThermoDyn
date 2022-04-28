@@ -93,9 +93,9 @@ else
 end
 % 依次批改
 for i = 1:length(CollectSheets)
-%     if CollectSheets(i).Name == '王文广'
-%         fprintf('Debugging!\n')
-%     end
+    if CollectSheets(i).Name == '黄炜航'
+        fprintf('Debugging!\n')
+    end
     for iQ = 1:QNum
         switch CollectSheets(i).Answers(iQ).TypeID
             case(1) % 单选题
@@ -175,6 +175,9 @@ SN_L4D = cellfun(@(x)x(end-3:end),arrayfun(@(x)convertStringsToChars(x),Student.
 Student = [Student,table(SN_L4D)];
 % 按学生成绩册中的名单顺序
 for iStudent = 1:height(Student)
+    if isequal(Student{iStudent,'Name'},'金宇心')
+        fprintf('debug')
+    end
     idx = cellfun(@(x)(strcmp(x,Student{iStudent,'Name'})),{CollectSheets.Name});
     if ~any(idx) % 按成绩单的姓名查找无果时
         if any(strcmp(fieldnames(CollectSheets),'SN_L4D')) % 按成绩单的学号后四位查找
@@ -187,11 +190,10 @@ for iStudent = 1:height(Student)
         Questions(iStudent,:) = [CollectSheets(idx).Answers.Grade];
         Time(iStudent,1) = CollectSheets(idx).Time;
         CorrectRate(iStudent,1) = mean(Questions(iStudent,:),'omitnan'); % 正确率
-%         Grade(iStudent,1) = ConvertGrade(mean(Questions(iStudent,:),'omitnan')); % 课测成绩采用五分值
-        
+%         Grade(iStudent,1) = ConvertGrade(mean(Questions(iStudent,:),'omitnan')); % 课测成绩采用五分值        
     elseif sum(idx) > 1 % 多次提交       
         Questions(iStudent,:) = [CollectSheets(find(idx,1,'Last')).Answers.Grade];
-        Time(iStudent,1) = CollectSheets(idx).Time;
+        Time(iStudent,1) = CollectSheets(find(idx,1,'Last')).Time;
         CorrectRate(iStudent,1) = mean(Questions(iStudent,:),'omitnan'); % 正确率
 %         Grade(iStudent,1) = ConvertGrade(mean(Questions(iStudent,:),'omitnan')); % 课测成绩采用五分值
     else
