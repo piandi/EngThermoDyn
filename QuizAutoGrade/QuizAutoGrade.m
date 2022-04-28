@@ -93,7 +93,7 @@ else
 end
 % 依次批改
 for i = 1:length(CollectSheets)
-%     if i == 20
+%     if CollectSheets(i).Name == '黄勇'
 %         fprintf('Debugging!\n')
 %     end
     for iQ = 1:QNum
@@ -111,7 +111,8 @@ for i = 1:length(CollectSheets)
                 for j = 1:length(Reference)
                     ONum = length(CollectSheets(i).Answers(iQ).Options);
                     if ONum == length(Reference(j).Answers(iQ).Options)
-                        if all(CollectSheets(i).Answers(iQ).Options == Reference(j).Answers(iQ).Options)
+                        if all(matches(CollectSheets(i).Answers(iQ).Options, ...
+                                Reference(j).Answers(iQ).Options)) % 用match函数判定答案与选项顺序无关
                             CollectSheets(i).Answers(iQ).Grade = 1;
                             break
                         else
@@ -132,7 +133,7 @@ for i = 1:length(CollectSheets)
                 end
             case(4) %
                 s0 = strrep(CollectSheets(i).Answers(iQ).Options,' ','');
-                s1 = regexp(s0,'\d+(\.\d+)?[%]?','match');
+                s1 = regexp(s0,'^(\-|\+)?\d+(\.\d+)?$','match');
                 if length(s1) ~= 1
                     prompt = sprintf('%s提交的第%d题答案识别有误！',CollectSheets(i).Name,iQ+2);
                     warning(prompt)
