@@ -93,7 +93,7 @@ else
 end
 % 依次批改
 for i = 1:length(CollectSheets)
-%     if CollectSheets(i).Name == '黄勇'
+%     if CollectSheets(i).Name == '王文广'
 %         fprintf('Debugging!\n')
 %     end
     for iQ = 1:QNum
@@ -131,18 +131,10 @@ for i = 1:length(CollectSheets)
                         CollectSheets(i).Answers(iQ).Grade = 0;
                     end
                 end
-            case(4) %
-                s0 = strrep(CollectSheets(i).Answers(iQ).Options,' ','');
-                s1 = regexp(s0,'^(\-|\+)?\d+(\.\d+)?$','match');
-                if length(s1) ~= 1
-                    prompt = sprintf('%s提交的第%d题答案识别有误！',CollectSheets(i).Name,iQ+2);
-                    warning(prompt)
-                    A = nan;
-                else
-                    A = str2double1(s1);
-                end               
+            case(4) % 计算题（结果允许+/-5%偏差）
+                A = ExtractValue(string(CollectSheets(i).Answers(iQ).Options));             
                 for j = 1:length(Reference)
-                    B = str2double1(Reference(j).Answers(iQ).Options);
+                    B = ExtractValue(string(Reference(j).Answers(iQ).Options));
                     if abs((A-B)/B) <= 0.05
                         CollectSheets(i).Answers(iQ).Grade = 1;
                         break
